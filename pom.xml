@@ -20,13 +20,34 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <testcontainers.version>1.17.4</testcontainers.version>
         <assertj-core.version>3.19.0</assertj-core.version>
+        <wiremock-jre8.version>2.35.0</wiremock-jre8.version>
     </properties>
 
     <dependencies>
+        <!--  TEST CONTAINERS -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mongodb</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!--  WIREMOCK -->
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-jre8-standalone</artifactId>
+            <version>${wiremock-jre8.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -35,6 +56,7 @@
             <version>${assertj-core.version}</version>
             <scope>test</scope>
         </dependency>
+        <!--  lombok  -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
