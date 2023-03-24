@@ -1,4 +1,4 @@
-package com.junioroffers.domain;
+package com.junioroffers;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
