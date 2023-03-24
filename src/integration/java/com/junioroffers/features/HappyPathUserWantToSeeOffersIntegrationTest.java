@@ -1,13 +1,39 @@
 package com.junioroffers.features;
 
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.junioroffers.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void user_fetch_offers_happy_path_test(){
 //        1: there are no offers in external HTTP server (http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers)
+
+        // given
+        wireMockServer.stubFor(WireMock.get("/offers")
+                .willReturn(WireMock.aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("""
+                                [  {
+                                       "title": "Junior Java Developer",
+                                       "company": "BlueSoft Sp. z o.o.",
+                                       "salary": "7 000 – 9 000 PLN",
+                                       "offerUrl": "https://nofluffjobs.com/pl/job/junior-java-developer-bluesoft-remote-hfuanrre"
+                                   },
+                                   {
+                                       "title": "Java (CMS) Developer",
+                                       "company": "Efigence SA",
+                                       "salary": "16 000 – 18 000 PLN",
+                                       "offerUrl": "https://nofluffjobs.com/pl/job/java-cms-developer-efigence-warszawa-b4qs8loh"
+                                   }
+                                ]     """.trim()
+                        )));
+
+
+
 //        2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
 //        3: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned UNAUTHORIZED(401)
 //        4: user made GET /offers with no jwt token and system returned UNAUTHORIZED(401)
