@@ -13,6 +13,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Collections;
 import java.util.List;
 
 @AllArgsConstructor
@@ -36,7 +37,13 @@ public class OfferRestTemplateClient implements OfferFetchable {
         try {
             final ResponseEntity<List<JobOfferResponse>> response = makeGetRequest(requestEntity);
              List<JobOfferResponse> fetchedOffers = response.getBody();
-             return fetchedOffers;
+            if (fetchedOffers == null) {
+                log.info("Response Body was null returning empty list");
+                //return Collections.emptyList();
+                return List.of();
+            }
+            log.info("Success Response Body Returned: " + fetchedOffers);
+            return fetchedOffers;
         } catch (ResourceAccessException e) {
                 log.error("Error while fetching offers using http client: " + e.getMessage());
                 return List.of();
