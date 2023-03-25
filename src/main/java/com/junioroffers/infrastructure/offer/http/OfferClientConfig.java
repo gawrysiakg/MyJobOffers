@@ -1,16 +1,22 @@
 package com.junioroffers.infrastructure.offer.http;
 
 import com.junioroffers.domain.offer.OfferFetchable;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
-
+@RequiredArgsConstructor
 @Configuration
 public class OfferClientConfig {
+
+
+    private final OfferClientConfigProperties offerClientConfigProperties;
+
+
 
     @Bean
     public RestTemplateResponseErrorHandler restTemplateResponseErrorHandler() {
@@ -18,21 +24,17 @@ public class OfferClientConfig {
     }
 
     @Bean
-    public RestTemplate restTemplate(@Value("${myjoboffers.offer.http.client.config.connectionTimeout:1000}") long connectionTimeout,
-                                     @Value("${myjoboffers.offer.http.client.config.readTimeout:1000}") long readTimeout,
-                                     RestTemplateResponseErrorHandler restTemplateResponseErrorHandler) {
+    public RestTemplate restTemplate(RestTemplateResponseErrorHandler restTemplateResponseErrorHandler) {
         return new RestTemplateBuilder()
                 .errorHandler(restTemplateResponseErrorHandler)
-                .setConnectTimeout(Duration.ofMillis(connectionTimeout))
-                .setReadTimeout(Duration.ofMillis(readTimeout))
+                .setConnectTimeout(Duration.ofMillis(offerClientConfigProperties.connectionTimeout()))
+                .setReadTimeout(Duration.ofMillis(offerClientConfigProperties.readTimeout()))
                 .build();
     }
 
     @Bean
-    public OfferFetchable offerFetchableClient(RestTemplate restTemplate,
-                                                      @Value("${myjoboffers.offer.http.client.config.uri}") String uri,
-                                                      @Value("${myjoboffers.offer.http.client.config.port:5057}") int port) {
-        return new OfferRestTemplateClient(restTemplate, uri, port);
+    public OfferFetchable offerFetchableClient(RestTemplate restTemplate ) {
+        return new OfferRestTemplateClient(restTemplate, offerClientConfigProperties.uri(), offerClientConfigProperties.port());
     }
 
 

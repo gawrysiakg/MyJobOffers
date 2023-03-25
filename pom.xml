@@ -63,6 +63,12 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+        <!-- main properties as source-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -88,6 +94,15 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <proc>none</proc>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
