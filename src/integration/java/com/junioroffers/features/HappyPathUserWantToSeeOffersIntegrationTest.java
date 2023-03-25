@@ -4,7 +4,6 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.junioroffers.BaseIntegrationTest;
 import com.junioroffers.SampleJobOffersResponse;
 import com.junioroffers.domain.offer.OfferFetchable;
-import com.junioroffers.domain.offer.dto.JobOfferResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +14,8 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
 
     @Autowired
     OfferFetchable offerRestTemplateClient;
+
+
 
     @Test
     public void user_fetch_offers_happy_path_test(){
@@ -27,6 +28,7 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
                         .withHeader("Content-Type", "application/json")
                         .withBody(bodyWithZeroOffersJson() )));
        // List<JobOfferResponse> jobOfferResponses = offerRestTemplateClient.fetchOffers();
+
 
 
 //        2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
