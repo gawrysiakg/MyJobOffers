@@ -1,0 +1,9 @@
+myjoboffers:
+  offer:
+    scheduler:
+      request:
+         delay: PT1s
+#              delay: "*/5 * * * * *"
+
+scheduling:
+  enabled: false
