@@ -5,26 +5,15 @@ import com.junioroffers.domain.offer.dto.OfferRequestDto;
 import com.junioroffers.domain.offer.dto.OfferResponseDto;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
-//@SpringBootTest
+
 class OfferFacadeTest {
-//    @Autowired
-//    OfferFetchable offerFetchable;
-//
-//    @Test //test only for check OfferClientConfigProperties.class properties
-//    void should_fetch_real_19_offers_from_external_api(){
-//        // given & when
-//        List<JobOfferResponse> jobOfferResponses = offerFetchable.fetchOffers();
-//        //then
-//        assertEquals(19, jobOfferResponses.size());
-//    }
+
 
     @Test
     void should_save_four_offers_when_no_offers_in_database(){
