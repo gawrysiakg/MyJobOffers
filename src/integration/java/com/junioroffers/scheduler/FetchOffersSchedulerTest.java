@@ -9,9 +9,10 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.time.Duration;
 
-import static org.awaitility.Awaitility.await;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
 @SpringBootTest(classes = MyJobOffersSpringBootApplication.class, properties = "scheduling.enabled=true")
 public class FetchOffersSchedulerTest extends BaseIntegrationTest {

@@ -3,27 +3,22 @@ package com.junioroffers.features;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.junioroffers.BaseIntegrationTest;
 import com.junioroffers.SampleJobOffersResponse;
+import com.junioroffers.domain.offer.OfferFacade;
 import com.junioroffers.domain.offer.OfferFetchable;
 import com.junioroffers.domain.offer.dto.JobOfferResponse;
 import com.junioroffers.domain.offer.dto.OfferResponseDto;
-import com.junioroffers.infrastructure.offer.scheduler.FetchOffersScheduler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import java.time.Duration;
 import java.util.List;
-
-import static org.awaitility.Awaitility.await;
 
 public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegrationTest implements SampleJobOffersResponse {
 
     @Autowired
     OfferFetchable offerRestTemplateClient;
-
     @Autowired
-    FetchOffersScheduler fetchOffersScheduler;
-
+    OfferFacade offerFacade;
 
 
     @Test
@@ -35,16 +30,11 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
-                        .withBody(bodyWithZeroOffersJson() )));
-        List<JobOfferResponse> jobOfferResponses = offerRestTemplateClient.fetchOffers();
+                        .withBody(bodyWithFourOffersJson())));
+       // List<JobOfferResponse> jobOfferResponses = offerRestTemplateClient.fetchOffers();
 
-
+        List<OfferResponseDto> offerResponseDtos = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
 //        2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
-
-//        await().
-//                atMost(Duration.ofSeconds(20))
-//                .until(()-> false);
-        List<OfferResponseDto> offerResponseDtos = fetchOffersScheduler.fetchOffers();
 
 
 //        3: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned UNAUTHORIZED(401)
