@@ -7,6 +7,7 @@ import com.junioroffers.domain.offer.OfferFacade;
 import com.junioroffers.domain.offer.OfferFetchable;
 import com.junioroffers.domain.offer.dto.JobOfferResponse;
 import com.junioroffers.domain.offer.dto.OfferResponseDto;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,13 +31,16 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
-                        .withBody(bodyWithFourOffersJson())));
+                        .withBody(bodyWithZeroOffersJson())));
        // List<JobOfferResponse> jobOfferResponses = offerRestTemplateClient.fetchOffers();
 
-        List<OfferResponseDto> offerResponseDtos = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
+
 //        2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
-
-
+        // given & when
+        List<OfferResponseDto> offerResponseDtos = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
+        // then
+        Assertions.assertThat(offerResponseDtos).isEmpty();
+            //f9 i puszczamy test dalej
 //        3: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned UNAUTHORIZED(401)
 //        4: user made GET /offers with no jwt token and system returned UNAUTHORIZED(401)
 //        5: user made POST /register with username=someUser, password=somePassword and system registered user with status OK(200)

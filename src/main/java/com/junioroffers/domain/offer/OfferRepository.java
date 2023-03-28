@@ -13,13 +13,5 @@ public interface OfferRepository extends MongoRepository<Offer, String> {
     boolean existsByOfferUrl(String offerUrl);
 
 //    Optional<Offer> findByOfferUrl(String offerUrl);
-//
-//    List<Offer> saveAll(List<Offer> offers);
-//
-//
-//    List<Offer> findAll();
-//
-//    Optional<Offer> findById(String id);
-//
-//    Offer save(Offer offer);
+
 }
