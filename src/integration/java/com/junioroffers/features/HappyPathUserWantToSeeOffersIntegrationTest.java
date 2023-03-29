@@ -83,7 +83,7 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
         performForNotFoundId.andExpect(status().isNotFound())
                 .andExpect(content().json("""
                         {
-                        "message": "Not found for id: 9999",
+                        "message": "Offer with id 9999 not found",
                         "status": "NOT_FOUND"
                         }
                         """.trim()
