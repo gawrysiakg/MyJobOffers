@@ -5,6 +5,7 @@ import com.junioroffers.domain.offer.dto.OfferRequestDto;
 import com.junioroffers.domain.offer.dto.OfferResponseDto;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
+import org.springframework.dao.DuplicateKeyException;
 
 import java.util.List;
 
@@ -67,7 +68,7 @@ class OfferFacadeTest {
         //When
         Throwable throwable = catchThrowable(()-> offerFacade.saveOffer(new OfferRequestDto("Company", "mid", "4999", "www.bigcompany.pl")));
         //Then
-        assertThat(throwable).isInstanceOf(OfferDuplicateException.class).hasMessage("Offer with offerUrl [www.bigcompany.pl] already exists");
+        assertThat(throwable).isInstanceOf(DuplicateKeyException.class).hasMessage("Offer with offerUrl [www.bigcompany.pl] already exists");
     }
 
     @Test

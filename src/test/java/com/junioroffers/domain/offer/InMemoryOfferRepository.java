@@ -1,5 +1,6 @@
 package com.junioroffers.domain.offer;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,7 +64,7 @@ public class InMemoryOfferRepository implements OfferRepository{
     @Override
     public <S extends Offer> S save(S entity) {
         if (database.values().stream().anyMatch(offer -> offer.offerUrl().equals(entity.offerUrl()))) {
-            throw new OfferDuplicateException(entity.offerUrl());
+            throw new DuplicateKeyException(entity.offerUrl());
         }
         UUID id = UUID.randomUUID();        //najpierw sprawdzamy czy już nie mamy tego ogłoszenia
         Offer offer = new Offer(            //które chcemy zapisać
