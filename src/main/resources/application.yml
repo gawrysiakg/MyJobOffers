@@ -1,8 +1,11 @@
 # swagger link: http://localhost:8080/swagger-ui/index.html
 spring:
+  main:
+    allow-bean-definition-overriding: true
   data:
     mongodb:
       uri: mongodb://admin:admin@localhost:27017/offers
+      auto-index-creation: true # to have unique id values in db
 
   mvc:
     pathmatch:
