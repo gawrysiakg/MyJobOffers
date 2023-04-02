@@ -32,7 +32,8 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
     OfferFetchable offerRestTemplateClient;
     @Autowired
     OfferFacade offerFacade;
-
+// gdy mamy kilka testów integracyjnych a jest problem z odpaleniem wszystkich na raz
+// to trzeba nadpisać w klasie z tymi testami @Container,  @RegisterExtension, @DynamicPropertySource
 
     @Test
     public void user_fetch_offers_happy_path_test() throws Exception {
@@ -73,8 +74,37 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
 
 
 //        8: there are 2 new offers in external HTTP server
+        // given & when & then
+        wireMockServer.stubFor(WireMock.get("/offers")
+                .willReturn(WireMock.aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(bodyWithTwoOffersJson())));
+
+
 //        9: scheduler ran 2nd time and made GET to external server and system added 2 new offers with ids: 1000 and 2000 to database
+        // given & when
+        List<OfferResponseDto> expectedFetchedTwoOffers = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
+        // then
+        assertThat(expectedFetchedTwoOffers).hasSize(2);
+
+
 //        10: user made GET /offers with header “Authorization: Bearer AAAA.BBBB.CCC” and system returned OK(200) with 2 offers with ids: 1000 and 2000
+        // given & when
+        ResultActions userExpectsTwoOffers = mockMvc.perform(MockMvcRequestBuilders.get("/offers")
+                .contentType(MediaType.APPLICATION_JSON));
+        // then
+        MvcResult expectedTwoOffers = userExpectsTwoOffers.andExpect((status().isOk())).andReturn();
+        String expectedAsString = expectedTwoOffers.getResponse().getContentAsString();
+        List <OfferResponseDto> responseExpectedTwo = objectMapper.readValue(expectedAsString, new TypeReference<>(){});
+        Assertions.assertThat(responseExpectedTwo).hasSize(2);
+        OfferResponseDto expectedFirstOffer = responseExpectedTwo.get(0);
+        OfferResponseDto expectedSecondOffer = responseExpectedTwo.get(1);
+        assertThat(responseExpectedTwo).containsExactlyInAnyOrder(
+                new OfferResponseDto(expectedFirstOffer.id(), expectedFirstOffer.companyName(), expectedFirstOffer.position(), expectedFirstOffer.salary(), expectedFirstOffer.offerUrl()),
+                new OfferResponseDto(expectedSecondOffer.id(), expectedSecondOffer.companyName(), expectedSecondOffer.position(), expectedSecondOffer.salary(), expectedSecondOffer.offerUrl())
+        );
+
 
 
 //        11: user made GET /offers/9999 and system returned NOT_FOUND(404) with message “Offer with id 9999 not found”
@@ -93,9 +123,56 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
 
 
 //        12: user made GET /offers/1000 and system returned OK(200) with offer
+        // given
+        String idOfferAddedToDb = expectedFirstOffer.id();
+        //when
+        ResultActions getSavedOfferById = mockMvc.perform(MockMvcRequestBuilders.get("/offers/"+idOfferAddedToDb)
+                .contentType(MediaType.APPLICATION_JSON));
+        String expectedOffer = getSavedOfferById.andExpect(status().is(200)).andReturn().getResponse().getContentAsString();
+        OfferResponseDto offerReturnedFromDb = objectMapper.readValue(expectedOffer, OfferResponseDto.class);
+        // then
+        assertThat(offerReturnedFromDb.id()).isEqualTo(idOfferAddedToDb);
+        assertThat(offerReturnedFromDb).isEqualTo(expectedFirstOffer);
+
+
 //        13: there are 2 new offers in external HTTP server
+        // given & when & then
+        wireMockServer.stubFor(WireMock.get("/offers")
+                .willReturn(WireMock.aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(bodyWithFourOffersJson())));
+
+
 //        14: scheduler ran 3rd time and made GET to external server and system added 2 new offers with ids: 3000 and 4000 to database
+        // given & when
+        List<OfferResponseDto> expectedFetchedOnlyTwoOffersNotExistedInDb = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
+        // then
+        assertThat(expectedFetchedOnlyTwoOffersNotExistedInDb).hasSize(2);
+
+
 //        15: user made GET /offers with header “Authorization: Bearer AAAA.BBBB.CCC” and system returned OK(200) with 4 offers with ids: 1000,2000, 3000 and 4000
+        // given & when
+        ResultActions userExpectsFourOffers = mockMvc.perform(MockMvcRequestBuilders.get("/offers")
+                .contentType(MediaType.APPLICATION_JSON));
+        // then
+        MvcResult expectedFourOffers = userExpectsFourOffers.andExpect((status().isOk())).andReturn();
+        String expectedFourAsString = expectedFourOffers.getResponse().getContentAsString();
+        List <OfferResponseDto> responseExpectedFour = objectMapper.readValue(expectedFourAsString, new TypeReference<>(){});
+        Assertions.assertThat(responseExpectedFour).hasSize(4);
+        OfferResponseDto expectedFirstFromFourOffer = responseExpectedFour.get(0);
+        OfferResponseDto expectedSecondFromFourOffer = responseExpectedFour.get(1);
+        OfferResponseDto expectedThirdFromFourOffer = responseExpectedFour.get(2);
+        OfferResponseDto expectedFourthFromFourOffer = responseExpectedFour.get(3);
+        assertThat(responseExpectedFour).containsExactlyInAnyOrder(
+                new OfferResponseDto(expectedFirstFromFourOffer.id(), expectedFirstFromFourOffer.companyName(), expectedFirstFromFourOffer.position(), expectedFirstFromFourOffer.salary(), expectedFirstFromFourOffer.offerUrl()),
+                new OfferResponseDto(expectedSecondFromFourOffer.id(), expectedSecondFromFourOffer.companyName(), expectedSecondFromFourOffer.position(), expectedSecondFromFourOffer.salary(), expectedSecondFromFourOffer.offerUrl()),
+                new OfferResponseDto(expectedThirdFromFourOffer.id(), expectedThirdFromFourOffer.companyName(), expectedThirdFromFourOffer.position(), expectedThirdFromFourOffer.salary(), expectedThirdFromFourOffer.offerUrl()),
+                new OfferResponseDto(expectedFourthFromFourOffer.id(), expectedFourthFromFourOffer.companyName(), expectedFourthFromFourOffer.position(), expectedFourthFromFourOffer.salary(), expectedFourthFromFourOffer.offerUrl())
+
+        );
+
+
 
 
 //        16: user made POST /offers with header “Authorization: Bearer AAAA.BBBB.CCC” and offer as body and system returned CREATED(201) with saved offer
@@ -103,7 +180,7 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
         // given
         // when
         ResultActions performPostOffersWithOneOffer  = mockMvc.perform(MockMvcRequestBuilders.post("/offers")
-                .contentType(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
                         "companyName": "someCompany",
@@ -132,8 +209,8 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
         // then
         String oneOfferJson= performGet.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         List <OfferResponseDto> offerResponseDtoList = objectMapper.readValue(oneOfferJson, new TypeReference<>() {});
-        assertThat(offerResponseDtoList).hasSize(1);
-        assertThat(offerResponseDtoList.get(0).id()).isEqualTo(id);
+        assertThat(offerResponseDtoList).hasSize(5);
+        //assertThat(offerResponseDtoList.get(2).id()).isEqualTo(id);
         assertThat(offerResponseDtoList.stream().map(OfferResponseDto::id)).contains(id);
     }
 }
