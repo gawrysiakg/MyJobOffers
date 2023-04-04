@@ -1,13 +1,14 @@
 package com.junioroffers;
 
 //import com.junioroffers.infrastructure.offer.http.OfferClientConfigProperties;
+import com.junioroffers.infrastructure.security.jwt.JwtConfigurationProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
-//@EnableConfigurationProperties({OfferClientConfigProperties.class})
+@EnableConfigurationProperties({JwtConfigurationProperties.class})
 @EnableMongoRepositories
 public class MyJobOffersSpringBootApplication {
 
