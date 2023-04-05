@@ -6,18 +6,13 @@ import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.junioroffers.BaseIntegrationTest;
 import com.junioroffers.SampleJobOffersResponse;
 import com.junioroffers.domain.loginandregister.dto.RegistrationResultDto;
-import com.junioroffers.domain.offer.OfferFacade;
-import com.junioroffers.domain.offer.OfferFetchable;
-import com.junioroffers.domain.offer.dto.JobOfferResponse;
 import com.junioroffers.domain.offer.dto.OfferResponseDto;
 import com.junioroffers.infrastructure.loginandregister.controller.dto.JwtResponseDto;
 import com.junioroffers.infrastructure.offer.scheduler.FetchOffersScheduler;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,23 +25,14 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
-
-
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.testcontainers.shaded.org.hamcrest.MatcherAssert.assertThat;
 
 public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegrationTest implements SampleJobOffersResponse {
-
-    @Autowired
-    OfferFetchable offerRestTemplateClient;
-    @Autowired
-    OfferFacade offerFacade;
 
     @Autowired
     FetchOffersScheduler fetchOffersScheduler;
@@ -83,7 +69,7 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
 
 //        2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
         // given & when
-        List<OfferResponseDto> offerResponseDtos = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
+        List<OfferResponseDto> offerResponseDtos = fetchOffersScheduler.fetchOffers();
         // then
         Assertions.assertThat(offerResponseDtos).isEmpty();
 
@@ -190,7 +176,7 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
 
 //        9: scheduler ran 2nd time and made GET to external server and system added 2 new offers with ids: 1000 and 2000 to database
         // given & when
-        List<OfferResponseDto> expectedFetchedTwoOffers = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
+        List<OfferResponseDto> expectedFetchedTwoOffers = fetchOffersScheduler.fetchOffers();
         // then
         assertThat(expectedFetchedTwoOffers).hasSize(2);
 
@@ -255,7 +241,7 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
 
 //        14: scheduler ran 3rd time and made GET to external server and system added 2 new offers with ids: 3000 and 4000 to database
         // given & when
-        List<OfferResponseDto> expectedFetchedOnlyTwoOffersNotExistedInDb = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
+        List<OfferResponseDto> expectedFetchedOnlyTwoOffersNotExistedInDb = fetchOffersScheduler.fetchOffers();
         // then
         assertThat(expectedFetchedOnlyTwoOffersNotExistedInDb).hasSize(2);
 
