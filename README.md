@@ -10,6 +10,31 @@ Jestem dumny z miejsca w którym jestem. Jeszcze rok temu nie potrafiłem nic sa
 
 Jestem otwarty na każdy feedback, jeśli można coś zrobić inaczej, lepiej - napisz do mnie. Za każdą wskazówkę jestem bardzo dzięczny. 
 
+
+## Technologie wykorzystane w projekcie:
+
+- Spring Boot: Web (RestControllers), Test, Data Mongodb, Validation, Security + JWT
+- baza danych MongoDB + Mongo-Express na porcie 8081, do przeglądania zawartości bazy danych
+- Redis do Cache + Redis-Commander na porcie 8082
+- Spring Scheduler - pobierający co 3 godziny najnowsze oferty pracy
+- Docker & Docker-Compose & Docker Desktop
+- Wiremock
+- Log4j2
+- Testcontainers
+- RestTemplate, json, HTTP, MockMvc
+- Awaitility
+- Testy Jednostkowe (JUnit5, Mockito, AssertJ)
+- Testy Integracyjne SpringBootTest, MockMvc, SpringSecurityTest
+- Lombok
+- Maven
+- Git, Github/Gitlab
+- IntelliJ Ultimate
+- Swagger
+
+![Swagger](architecture/swagger.png)
+
+
+
 ### Autor: 
 Grzegorz Gawrysiak 
 

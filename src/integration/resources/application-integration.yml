@@ -6,7 +6,7 @@ myjoboffers:
 #              delay: "*/5 * * * * *"
 
 scheduling:
-  enabled: false
+      enabled: false
 
 spring:
   cache:

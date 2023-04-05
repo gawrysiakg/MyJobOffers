@@ -66,9 +66,11 @@ class OfferFacadeTest {
         OfferResponseDto offerResponseDto = offerFacade.saveOffer(new OfferRequestDto("BigCompany", "junior", "2999", "www.bigcompany.pl"));
         assertThat(offerFacade.findOfferById(offerResponseDto.id()).id()).isEqualTo(offerResponseDto.id());
         //When
-        Throwable throwable = catchThrowable(()-> offerFacade.saveOffer(new OfferRequestDto("Company", "mid", "4999", "www.bigcompany.pl")));
+        Throwable throwed = catchThrowable(()-> offerFacade.saveOffer(new OfferRequestDto("Company", "mid", "4999", "www.bigcompany.pl")));
         //Then
-        assertThat(throwable).isInstanceOf(DuplicateKeyException.class).hasMessage("Offer with offerUrl [www.bigcompany.pl] already exists");
+        AssertionsForClassTypes.assertThat(throwed)
+                .isInstanceOf(DuplicateKeyException.class)
+                .hasMessage("Offer with offerUrl [www.bigcompany.pl] already exists");
     }
 
     @Test

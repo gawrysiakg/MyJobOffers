@@ -30,30 +30,6 @@ public class InMemoryOfferRepository implements OfferRepository{
         return Optional.ofNullable(database.get(id));
     }
 
-//    @Override
-//    public Optional<Offer> findByOfferUrl(String offerUrl) {
-//        return Optional.of(database.get(offerUrl));
-//
-//    }
-
-//    @Override
-//    public List<Offer> saveAll(List<Offer> offers) {
-//        List<Offer> list = offers.stream().map(this::save).toList();
-//        return list;
-//    }
-//
-//    @Override
-//    public List<Offer> saveAll(List<Offer> offers) {
-//        List<Offer> list = offers.stream().map(this::save).toList();
-//        return list;
-//    }
-
-//    @Override
-//    public <S extends Offer> List<S> saveAll(List<Offer> entities) {
-//        List<Offer> list = entities.stream().map(this::save).toList();
-//        return (List<S>) entities;
-//    }
-
     @Override
     public <S extends Offer> List<S> saveAll(Iterable<S> entities) {
         return (List<S>) StreamSupport.stream(entities.spliterator(), false)
@@ -64,7 +40,7 @@ public class InMemoryOfferRepository implements OfferRepository{
     @Override
     public <S extends Offer> S save(S entity) {
         if (database.values().stream().anyMatch(offer -> offer.offerUrl().equals(entity.offerUrl()))) {
-            throw new DuplicateKeyException(entity.offerUrl());
+            throw new DuplicateKeyException(String.format("Offer with offerUrl [%s] already exists", entity.offerUrl()));
         }
         UUID id = UUID.randomUUID();        //najpierw sprawdzamy czy już nie mamy tego ogłoszenia
         Offer offer = new Offer(            //które chcemy zapisać

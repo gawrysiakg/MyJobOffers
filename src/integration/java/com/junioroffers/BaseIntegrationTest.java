@@ -26,13 +26,13 @@ public class BaseIntegrationTest {
 
     public static final String WIRE_MOCK_HOST = "http://localhost";
 
-    //odczytuje json i mapuje na obiekty Javy (jak Gson) , jest ze springa
+    //odczytuje json i mapuje na obiekty Javy (jak Gson) , jest ze Spring
     @Autowired
     public ObjectMapper objectMapper;
 
     @Autowired
     public MockMvc mockMvc;
- //   wireMock jest do testowania zależności zewnętrznych a mockMvc uderza do naszych endpointów
+    // wireMock jest do testowania zależności zewnętrznych a mockMvc uderza do naszych endpointów
     // jest jeszcze testRestTemplate zamiast mockMvc
 
     //odpala bazę mongo w kontenerze, tylko na potrzeby testowe, potem baza umiera
@@ -47,10 +47,9 @@ public class BaseIntegrationTest {
 
     @DynamicPropertySource
     public static void propertyOverride(DynamicPropertyRegistry registry) {
-       // registry.add("spring.data.mongodb.uri", ()->mongoDBContainer.getReplicaSetUrl()+"offers"); //doklei do nazwy test
         registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
-        registry.add("myjoboffers.offer.http.client.config.uri", () -> WIRE_MOCK_HOST);
-        registry.add("myjoboffers.offer.http.client.config.port", () -> wireMockServer.getPort());
+        registry.add("offer.http.client.config.uri", () -> WIRE_MOCK_HOST);
+        registry.add("offer.http.client.config.port", () -> wireMockServer.getPort());
     }
 
 }

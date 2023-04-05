@@ -2,6 +2,7 @@ package com.junioroffers.features;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.junioroffers.BaseIntegrationTest;
 import com.junioroffers.SampleJobOffersResponse;
 import com.junioroffers.domain.loginandregister.dto.RegistrationResultDto;
@@ -10,15 +11,25 @@ import com.junioroffers.domain.offer.OfferFetchable;
 import com.junioroffers.domain.offer.dto.JobOfferResponse;
 import com.junioroffers.domain.offer.dto.OfferResponseDto;
 import com.junioroffers.infrastructure.loginandregister.controller.dto.JwtResponseDto;
+import com.junioroffers.infrastructure.offer.scheduler.FetchOffersScheduler;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.utility.DockerImageName;
 
 
 import java.nio.charset.Charset;
@@ -36,6 +47,24 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
     OfferFetchable offerRestTemplateClient;
     @Autowired
     OfferFacade offerFacade;
+
+    @Autowired
+    FetchOffersScheduler fetchOffersScheduler;
+
+    @Container
+    public static final MongoDBContainer mongoDBContainer = new MongoDBContainer(DockerImageName.parse("mongo:4.0.10"));
+
+    @RegisterExtension
+    public static WireMockExtension wireMockServer = WireMockExtension.newInstance()
+            .options(wireMockConfig().dynamicPort())
+            .build();
+
+    @DynamicPropertySource
+    public static void propertyOverride(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+        registry.add("offer.http.client.config.uri", () -> WIRE_MOCK_HOST);
+        registry.add("offer.http.client.config.port", () -> wireMockServer.getPort());
+    }
 // gdy mamy kilka testów integracyjnych a jest problem z odpaleniem wszystkich na raz
 // to trzeba nadpisać w klasie z tymi testami @Container,  @RegisterExtension, @DynamicPropertySource
 
@@ -250,9 +279,7 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
                 new OfferResponseDto(expectedSecondFromFourOffer.id(), expectedSecondFromFourOffer.companyName(), expectedSecondFromFourOffer.position(), expectedSecondFromFourOffer.salary(), expectedSecondFromFourOffer.offerUrl()),
                 new OfferResponseDto(expectedThirdFromFourOffer.id(), expectedThirdFromFourOffer.companyName(), expectedThirdFromFourOffer.position(), expectedThirdFromFourOffer.salary(), expectedThirdFromFourOffer.offerUrl()),
                 new OfferResponseDto(expectedFourthFromFourOffer.id(), expectedFourthFromFourOffer.companyName(), expectedFourthFromFourOffer.position(), expectedFourthFromFourOffer.salary(), expectedFourthFromFourOffer.offerUrl())
-
         );
-
 
 
 

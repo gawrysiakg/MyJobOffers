@@ -66,6 +66,7 @@ class RedisOffersCacheIntegrationTest extends BaseIntegrationTest {
         // then
         registerAction.andExpect(status().isCreated());
 
+
         // step 2: login
         // given && when
         ResultActions successLoginRequest = mockMvc.perform(post("/token")
@@ -83,6 +84,7 @@ class RedisOffersCacheIntegrationTest extends BaseIntegrationTest {
         JwtResponseDto jwtResponse = objectMapper.readValue(json, JwtResponseDto.class);
         String jwtToken = jwtResponse.token();
 
+
         // step 3: should save to cache offers request
         // given && when
         mockMvc.perform(get("/offers")
@@ -92,6 +94,7 @@ class RedisOffersCacheIntegrationTest extends BaseIntegrationTest {
         // then
         verify(offerFacade, times(1)).findAllOffers();
         assertThat(cacheManager.getCacheNames().contains("jobOffers")).isTrue();
+
 
         // step 4: cache should be invalidated
         // given && when && then
@@ -106,7 +109,6 @@ class RedisOffersCacheIntegrationTest extends BaseIntegrationTest {
                             verify(offerFacade, atLeast(2)).findAllOffers();
                         }
                 );
-
     }
 
 }
