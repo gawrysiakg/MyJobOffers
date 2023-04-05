@@ -3,6 +3,7 @@ package com.junioroffers.controller.error;
 import com.junioroffers.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -10,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class OfferUrlDuplicateErrorIntegrationTest extends BaseIntegrationTest {
 
     @Test
+    @WithMockUser() //test user will have endpoint access (spring-security-test dependency in pom)
     public void should_return_409_conflict_when_added_second_offer_with_same_offer_url() throws Exception {
         // step 1
         // given && when
