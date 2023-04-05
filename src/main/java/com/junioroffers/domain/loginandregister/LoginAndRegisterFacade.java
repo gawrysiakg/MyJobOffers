@@ -4,8 +4,11 @@ import com.junioroffers.domain.loginandregister.dto.RegisterUserDto;
 import com.junioroffers.domain.loginandregister.dto.RegistrationResultDto;
 import com.junioroffers.domain.loginandregister.dto.UserDto;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
+@Component
 public class LoginAndRegisterFacade {
 
     private final LoginRepository repository;
@@ -14,7 +17,7 @@ public class LoginAndRegisterFacade {
     public UserDto findByUsername(String username){
         return repository.findByUsername(username)
                 .map(user->new UserDto(user.id(), user.password(), user.username()))
-                .orElseThrow(()-> new UsernameNotFoundException(USER_NOT_FOUND));
+                .orElseThrow(()-> new UsernameNotFoundException(USER_NOT_FOUND)); // <--exception delivered with spring (UserDetails)
     }
 
     public RegistrationResultDto register(RegisterUserDto registerUserDto){
