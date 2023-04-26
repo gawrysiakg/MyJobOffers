@@ -32,8 +32,9 @@ public class BaseIntegrationTest {
 
     @Autowired
     public MockMvc mockMvc;
-    // wireMock jest do testowania zależności zewnętrznych a mockMvc uderza do naszych endpointów
-    // jest jeszcze testRestTemplate zamiast mockMvc
+    // wireMock jest do testowania zależności zewnętrznych - emulowanie zachowań API
+    // mockMvc uderza do naszych endpointów i pozwala na symulowanie żądań
+    // testRestTemplate pozwala na wywołanie rzeczywistych żądań HTTP
 
     //odpala bazę mongo w kontenerze, tylko na potrzeby testowe, potem baza umiera
     @Container

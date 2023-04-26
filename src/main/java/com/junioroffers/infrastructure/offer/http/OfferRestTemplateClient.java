@@ -33,7 +33,7 @@ public class OfferRestTemplateClient implements OfferFetchable {
         HttpHeaders headers = new HttpHeaders();
         final HttpEntity<HttpHeaders> requestEntity = new HttpEntity<>(headers);
         try {
-            String urlForService = getUrlForService("/offers");
+            String urlForService = getUrlForService(OFFER_SERVICE_PATH);
             final String url = UriComponentsBuilder.fromHttpUrl(urlForService).toUriString();
             ResponseEntity<List<JobOfferResponse>> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity,
                     new ParameterizedTypeReference<>() {

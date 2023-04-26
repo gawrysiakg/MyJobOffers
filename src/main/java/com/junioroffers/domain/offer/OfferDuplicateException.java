@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class OfferDuplicateException extends RuntimeException {
-
+    // usage to refactor
     private final List<String> offerUrls;
 
     public OfferDuplicateException(String offerUrl) {

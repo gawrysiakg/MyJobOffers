@@ -12,6 +12,7 @@ public class OfferUrlDuplicateErrorIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @WithMockUser() //test user will have endpoint access (spring-security-test dependency in pom)
+    // tworzy symulację zalogowanego użytkownika(user, password, USER)
     public void should_return_409_conflict_when_added_second_offer_with_same_offer_url() throws Exception {
         // step 1
         // given && when
