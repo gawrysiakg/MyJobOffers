@@ -40,16 +40,16 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
     @Container
     public static final MongoDBContainer mongoDBContainer = new MongoDBContainer(DockerImageName.parse("mongo:4.0.10"));
 
-    @RegisterExtension
-    public static WireMockExtension wireMockServer = WireMockExtension.newInstance()
-            .options(wireMockConfig().dynamicPort())
-            .build();
+//    @RegisterExtension
+//    public static WireMockExtension wireMockServer = WireMockExtension.newInstance()
+//            .options(wireMockConfig().dynamicPort())
+//            .build();
 
     @DynamicPropertySource
     public static void propertyOverride(DynamicPropertyRegistry registry) {
         registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
-        registry.add("offer.http.client.config.uri", () -> WIRE_MOCK_HOST);
-        registry.add("offer.http.client.config.port", () -> wireMockServer.getPort());
+        registry.add("myjoboffers.offer.http.client.config.uri", () -> WIRE_MOCK_HOST);
+        registry.add("myjoboffers.offer.http.client.config.port", () -> wireMockServer.getPort());
     }
 
     @Test
