@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-@SpringBootTest
+
 public class OfferHttpClientIntegrationTest implements SampleJobOffersResponse {
 
     public static final String CONTENT_TYPE_HEADER_KEY = "Content-Type";
