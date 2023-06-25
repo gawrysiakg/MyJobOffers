@@ -16,8 +16,6 @@ class LoginAndRegisterFacadeTest {
     LoginAndRegisterFacade loginAndRegisterFacade = new LoginAndRegisterFacade(repository);
 
 
-    //podejście ditroid testuje fasadę a nie każdą metodę i klasę oddzielnie, mniej kodu,
-    // nie trzeba mockować wszystkiego z klasy zależnej(black box testing)
 
     @Test
     void should_throw_exception_when_user_not_found(){

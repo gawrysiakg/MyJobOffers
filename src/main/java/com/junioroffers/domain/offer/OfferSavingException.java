@@ -1,6 +1,7 @@
 package com.junioroffers.domain.offer;
 
 import java.util.List;
+
 import lombok.Getter;
 
 @Getter

@@ -21,10 +21,6 @@ public class LoginRepositoryTestImpl implements LoginRepository{
         return Optional.ofNullable(loginList.get(username));
     }
 
-//    @Override
-//    public User save(User user) {
-//        return loginList.put(user.username(), user);
-//    }
 
     @Override
     public <S extends User> S save(S entity) {

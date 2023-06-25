@@ -22,8 +22,8 @@ public class FetchOffersScheduler {
         private static final String ADDED_NEW_OFFERS_MESSAGE = "Added new {} offers";
         private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
+        //@Scheduled(fixedDelayString = "${myjoboffers.offer.scheduler.request.delay}")
         @Scheduled(fixedDelayString = "${myjoboffers.offer.scheduler.request.delay}")
-       // @Scheduled(fixedDelayString = "${myjoboffers.offer.scheduler.request.delay}")
         public List<OfferResponseDto> fetchOffers(){
             log.info(STARTED_OFFERS_FETCHING_MESSAGE, dateFormat.format(new Date()));
             final List<OfferResponseDto> addedOffers = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
@@ -31,17 +31,4 @@ public class FetchOffersScheduler {
             log.info(STOPPED_OFFERS_FETCHING_MESSAGE, dateFormat.format(new Date()));
             return addedOffers;
         }
-
-
-
-
-
-//    @Scheduled(fixedDelayString = "${myjoboffers.offer.scheduler.request.delay}")
-//    public List<OfferResponseDto> fetchOffers(){
-//        log.info("fetching offers scheduler started");
-//        List<OfferResponseDto> offerResponseDtos = offerFacade.fetchAllOffersAndSaveAllIfNotExists();
-//        log.info("successfully fetched "+offerResponseDtos.size()+" offers");
-//        log.info(offerResponseDtos.toString());
-//        return offerResponseDtos;
-//    }
 }

@@ -6,7 +6,7 @@ spring:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}
   cache:
-    type: redis  # this enable caching in redis in memory db, none - disabled
+    type: redis  # this enables caching in redis in memory db, none - disabled
     redis:
       time-to-live: PT60M #one hour cache holds
   data:

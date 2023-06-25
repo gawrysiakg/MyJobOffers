@@ -19,12 +19,10 @@ import java.util.List;
 @Log4j2
 public class OfferRestTemplateClient implements OfferFetchable {
 
-    // full url: http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers
     public static final String OFFER_SERVICE_PATH = "/offers";
     private final RestTemplate restTemplate;
     private final String uri;
     private final int port;
-
 
 
     @Override
@@ -50,25 +48,6 @@ public class OfferRestTemplateClient implements OfferFetchable {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
-
-
-
-//
-//    private ResponseEntity<List<JobOfferResponse>> makeGetRequest(HttpEntity<HttpHeaders> requestEntity) {
-//        final String url = UriComponentsBuilder.fromHttpUrl(getUrlForService(OFFER_SERVICE_PATH))
-//                .toUriString();
-//        ResponseEntity<List<JobOfferResponse>> response = restTemplate.exchange(
-//                url,
-//                HttpMethod.GET,
-//                requestEntity,
-//                new ParameterizedTypeReference<>() {
-//                });
-//        return response;
-//    }
-
-
 
 
     private String getUrlForService(String service) {

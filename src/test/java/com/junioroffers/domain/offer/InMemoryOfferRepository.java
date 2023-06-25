@@ -42,8 +42,8 @@ public class InMemoryOfferRepository implements OfferRepository{
         if (database.values().stream().anyMatch(offer -> offer.offerUrl().equals(entity.offerUrl()))) {
             throw new DuplicateKeyException(String.format("Offer with offerUrl [%s] already exists", entity.offerUrl()));
         }
-        UUID id = UUID.randomUUID();        //najpierw sprawdzamy czy już nie mamy tego ogłoszenia
-        Offer offer = new Offer(            //które chcemy zapisać
+        UUID id = UUID.randomUUID();
+        Offer offer = new Offer(
                 id.toString(),
                 entity.companyName(),
                 entity.position(),
@@ -58,9 +58,6 @@ public class InMemoryOfferRepository implements OfferRepository{
     public List<Offer> findAll() {
         return database.values().stream().toList();
     }
-
-
-
 
 
     @Override

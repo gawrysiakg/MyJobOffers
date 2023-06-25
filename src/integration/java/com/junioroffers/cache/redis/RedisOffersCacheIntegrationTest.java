@@ -32,15 +32,15 @@ class RedisOffersCacheIntegrationTest extends BaseIntegrationTest {
 
     @SpyBean
     OfferFacade offerFacade;
-    // śledzimy prawdziwą implementację tego beana i patrzymy co się dzieje z nim i czy się wykonuje (werify)
+
     @Autowired
     CacheManager cacheManager;
-    //pozwala sprawdzić w cache czy mamy dodane to co dodawaliśmy
+
 
     static {
         REDIS = new GenericContainer<>("redis").withExposedPorts(6379);
         REDIS.start();
-    } //blok statyczny zainicjuje się zaraz po stworzeniu się tej klasy, i uruchomi redisa do testów
+    }
 
     @DynamicPropertySource
     public static void propertyOverride(DynamicPropertyRegistry registry) {

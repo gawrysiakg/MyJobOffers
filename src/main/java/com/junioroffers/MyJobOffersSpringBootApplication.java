@@ -1,6 +1,5 @@
 package com.junioroffers;
 
-//import com.junioroffers.infrastructure.offer.http.OfferClientConfigProperties;
 import com.junioroffers.infrastructure.security.jwt.JwtConfigurationProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

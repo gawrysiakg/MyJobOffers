@@ -37,7 +37,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable();  //wyłączone bo nie można by było robić zapytań do swojej własnej usługi np z postmana
+        httpSecurity.csrf().disable();  //disable to test with postman
         httpSecurity.authorizeRequests()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/v3/api-docs").permitAll()
@@ -54,8 +54,6 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .and()
                 .addFilterBefore(jwtAuthTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        //dodajemy klasę która będzie odpowiadała za filtr, czyli  odczyta zapytanie http i sprawdzi jaki jest tam token w header
-       // czyli najpierw nasz filtr sprawdzający czy jest token a potem klasa filtrująca ze springa
         return httpSecurity.build();
     }
 

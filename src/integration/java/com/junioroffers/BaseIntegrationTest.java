@@ -26,21 +26,15 @@ public class BaseIntegrationTest {
 
     public static final String WIRE_MOCK_HOST = "http://localhost";
 
-    //odczytuje json i mapuje na obiekty Javy (jak Gson) , jest ze Spring
     @Autowired
     public ObjectMapper objectMapper;
 
     @Autowired
     public MockMvc mockMvc;
-    // wireMock jest do testowania zależności zewnętrznych - emulowanie zachowań API
-    // mockMvc uderza do naszych endpointów i pozwala na symulowanie żądań
-    // testRestTemplate pozwala na wywołanie rzeczywistych żądań HTTP
 
-    //odpala bazę mongo w kontenerze, tylko na potrzeby testowe, potem baza umiera
     @Container
     public static final MongoDBContainer mongoDBContainer = new MongoDBContainer(DockerImageName.parse("mongo:4.0.10"));
-    //robimy wire mocka żeby mieć mocka a nie dane z zewnętrznego serwera, bo zewnętrzny serwer może nie odpowiadać,
-    // albo długo odpowiadać a tak testy będą niezależne. Robimy serwer ze swojego komputera po localhost
+
     @RegisterExtension
     public static WireMockExtension wireMockServer = WireMockExtension.newInstance()
             .options(wireMockConfig().dynamicPort())
@@ -49,8 +43,8 @@ public class BaseIntegrationTest {
     @DynamicPropertySource
     public static void propertyOverride(DynamicPropertyRegistry registry) {
         registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
-        registry.add("offer.http.client.config.uri", () -> WIRE_MOCK_HOST);
-        registry.add("offer.http.client.config.port", () -> wireMockServer.getPort());
+        registry.add("myjoboffers.offer.http.client.config.uri", () -> WIRE_MOCK_HOST);
+        registry.add("myjoboffers.offer.http.client.config.port", () -> wireMockServer.getPort());
     }
 
 }

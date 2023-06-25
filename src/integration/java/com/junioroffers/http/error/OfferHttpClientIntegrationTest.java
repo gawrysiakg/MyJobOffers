@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-@SpringBootTest
+
 public class OfferHttpClientIntegrationTest implements SampleJobOffersResponse {
 
     public static final String CONTENT_TYPE_HEADER_KEY = "Content-Type";
@@ -103,7 +103,7 @@ public class OfferHttpClientIntegrationTest implements SampleJobOffersResponse {
                         .withStatus(HttpStatus.SC_NO_CONTENT)
                         .withHeader(CONTENT_TYPE_HEADER_KEY, APPLICATION_JSON_CONTENT_TYPE_VALUE)
                         .withBody("""
-                                [1, 2, 3, 4, 5, 6, 82, 82, 83, 83, 86, 57, 10, 81, 53, 93, 50, 54, 31, 88, 15, 43, 79, 32, 43]
+                                [1, 2, 3]
                                           """.trim()
                         )));
 
@@ -123,7 +123,7 @@ public class OfferHttpClientIntegrationTest implements SampleJobOffersResponse {
                         .withStatus(HttpStatus.SC_OK)
                         .withHeader(CONTENT_TYPE_HEADER_KEY, APPLICATION_JSON_CONTENT_TYPE_VALUE)
                         .withBody("""
-                                [1, 2, 3, 4, 5, 6, 82, 82, 83, 83, 86, 57, 10, 81, 53, 93, 50, 54, 31, 88, 15, 43, 79, 32, 43]
+                                [1, 2, 3]
                                           """.trim()
                         )
                         .withFixedDelay(5000)));
