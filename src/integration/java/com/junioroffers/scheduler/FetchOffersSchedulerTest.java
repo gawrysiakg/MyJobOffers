@@ -17,7 +17,7 @@ import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 @SpringBootTest(classes = MyJobOffersSpringBootApplication.class, properties = "scheduling.enabled=true")
 public class FetchOffersSchedulerTest extends BaseIntegrationTest {
 
-    @SpyBean // adnotacja pozwoli podejrzeć wstrzyknięte beany i sprawdzić czy dwa razy się wykonała dana metoda
+    @SpyBean
     OfferFetchable remoteOfferClient;
 
 
@@ -27,6 +27,5 @@ public class FetchOffersSchedulerTest extends BaseIntegrationTest {
         await().
                 atMost(Duration.ofSeconds(2))
                 .untilAsserted(() -> verify(remoteOfferClient, times(1)).fetchOffers());
-        //Asercja ta jest wykonywana w cyklu, aż do momentu jej spełnienia lub przekroczenia maksymalnego czasu oczekiwania
     }
 }

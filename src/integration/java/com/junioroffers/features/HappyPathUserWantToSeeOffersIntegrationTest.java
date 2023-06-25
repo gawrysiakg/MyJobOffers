@@ -51,8 +51,6 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
         registry.add("offer.http.client.config.uri", () -> WIRE_MOCK_HOST);
         registry.add("offer.http.client.config.port", () -> wireMockServer.getPort());
     }
-// gdy mamy kilka testów integracyjnych a jest problem z odpaleniem wszystkich na raz
-// to trzeba nadpisać w klasie z tymi testami @Container,  @RegisterExtension, @DynamicPropertySource
 
     @Test
     public void user_fetch_offers_happy_path_test() throws Exception {
@@ -64,7 +62,6 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
                         .withBody(bodyWithZeroOffersJson())));
-       // List<JobOfferResponse> jobOfferResponses = offerRestTemplateClient.fetchOffers();
 
 
 //        2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
@@ -288,7 +285,7 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
         String contentAsString1 = performPostOffersWithOneOffer.andReturn().getResponse().getContentAsString();
         OfferResponseDto offerResponseDto = objectMapper.readValue(contentAsString1, OfferResponseDto.class);
         String id = offerResponseDto.id();
-        //jeśli jedna asercja nie przejdzie to inne i tak się wykonają
+
         assertAll(
                 () -> assertThat(offerResponseDto.companyName()).isEqualTo("someCompany"),
                 () -> assertThat(offerResponseDto.position()).isEqualTo("somePosition"),
@@ -306,7 +303,6 @@ public class HappyPathUserWantToSeeOffersIntegrationTest extends BaseIntegration
         String oneOfferJson= performGet.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         List <OfferResponseDto> offerResponseDtoList = objectMapper.readValue(oneOfferJson, new TypeReference<>() {});
         assertThat(offerResponseDtoList).hasSize(5);
-        //assertThat(offerResponseDtoList.get(2).id()).isEqualTo(id);
         assertThat(offerResponseDtoList.stream().map(OfferResponseDto::id)).contains(id);
     }
 }
