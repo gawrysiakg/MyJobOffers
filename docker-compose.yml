@@ -9,7 +9,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-      MONGO_INITDB_DATABASE: offers #admin
+      MONGO_INITDB_DATABASE: admin #offers
     volumes:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     ports:
@@ -42,7 +42,8 @@ services:
 
   myjoboffers:
     container_name: myjoboffers
-    build: . # kropka żeby robiło build z dockerfile
+    #build: . # kropka żeby robiło build z dockerfile
+    image: 733591888203.dkr.ecr.eu-central-1.amazonaws.com/myjoboffers:latest
     restart: always
     ports:
       - "8000:8080"

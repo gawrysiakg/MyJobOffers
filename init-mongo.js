@@ -1,11 +1,11 @@
-db.createUser(
+db.getSiblingDB("admin").createUser(
     {
         user: "admin",
         pwd: "admin",
         roles: [
             {
                 role: "readWrite",
-                db: "offers"
+                db: "myjoboffers_web"
             }
         ]
     }
