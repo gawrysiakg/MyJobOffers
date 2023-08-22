@@ -11,7 +11,8 @@ spring:
       time-to-live: PT60M #one hour cache holds
   data:
     mongodb:
-      uri: mongodb://admin:admin@localhost:27017/offers
+      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB_NAME}?authSource=${MONGO_AUTH_SOURCE}
+      #uri: mongodb://admin:admin@localhost:27017/offers
       auto-index-creation: true # to have unique id values in db
 
   mvc:
