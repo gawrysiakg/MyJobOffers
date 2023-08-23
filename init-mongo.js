@@ -5,7 +5,11 @@ db.getSiblingDB("admin").createUser(
         roles: [
             {
                 role: "readWrite",
-                db: "myjoboffers_web"
+                db: "offers"
+            },
+            {
+                role: "dbOwner",
+                db: "offers"
             }
         ]
     }

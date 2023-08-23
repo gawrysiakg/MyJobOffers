@@ -1,14 +1,15 @@
 ## My Job Offers
 
-Aplikacja pobierająca z zewnętrznego API listę najnowszych ogłoszeń o pracę dla Java Junior Developerów.
+Live Demo do Swaggera aplikacji umieszczonej na AWS dostępne pod linkiem:
+http://ec2-3-68-186-110.eu-central-1.compute.amazonaws.com:8000/swagger-ui/index.html#
 
+
+Aplikacja pobierająca z zewnętrznego API listę najnowszych ogłoszeń o pracę dla Java Junior Developerów.
 Ogłoszenia są cyklicznie pobierane przy użyciu schedulera, filtrowane a następnie bez duplikatów zapisywane w bazie danych.
 W celach edukacyjnych i rozwojowych starałem sie zrobić tem projekt trochę inaczej niż pozostałe, dlatego użyłem innej bazy danych - MongoDB, wykorzystałem też Dockera i Spring Security, oraz zrobiłem porządne testy. 
 
 Projekt wykonany pod okiem mentora, prezentuje moje aktualne możliwości i poziom zawansowania w IT. Może jeszcze nie wszystko potrafię ale rozwijam się systematycznie.
 Jestem dumny z miejsca w którym jestem. Jeszcze rok temu nie potrafiłem nic sam napisać w Javie a dziś... robię to co lubię, na luzie i z satysfakcją. 
-
-Jestem otwarty na każdy feedback, jeśli można coś zrobić inaczej, lepiej - napisz do mnie. Za każdą wskazówkę jestem bardzo dzięczny. 
 
 
 ## Technologie wykorzystane w projekcie:
@@ -28,8 +29,53 @@ Jestem otwarty na każdy feedback, jeśli można coś zrobić inaczej, lepiej - 
 - Lombok
 - Maven
 - Git, Github/Gitlab
-- IntelliJ Ultimate
 - Swagger
+
+
+## Zachęcam też do testowania w Postmanie.
+
+W pierwszej kolejności musimy zarejestrować użytkownika podając swoje dane. Należy zrobić  POST z odpowiednim JSON  na “/register” czyli:
+http://ec2-3-68-186-110.eu-central-1.compute.amazonaws.com:8000/register
+````
+{
+"password": "your_password",
+"username": "your_username"
+}
+````
+![register](architecture/postman/postregister.png)
+
+#
+Gdy jesteśmy już zarejestrowani, musimy uzyskać token. Robimy POST na “/token” , podając dane z rejestracji, czyli: http://ec2-3-68-186-110.eu-central-1.compute.amazonaws.com:8000/token
+````
+{
+"password": "your_password",
+"username": "your_username"
+}
+````
+W odpowiedzi uzyskujemy token.
+![token](architecture/postman/posttoken.png)
+#
+Następnie możemy już pobrać oferty pracy robiąc GET na “/offers” podając w nagłówku nasz autoryzacyjny bearer token
+![get](architecture/postman/getoffers.png)
+#
+Możemy też dodać nasze ogłoszenie do bazy danych. W tym celu robimy POST na “/offers”,
+http://ec2-3-68-186-110.eu-central-1.compute.amazonaws.com:8000/offers  podając w nagłówku nasz autoryzacyjny bearer token oraz dodając request body:
+````
+{
+"companyName": "Example Company",
+"offerUrl": "https://example.com/pl/job123",
+"position": "Java Junior",
+"salary": "4 000 – 8 000 PLN"
+}
+````
+![post](architecture/postman/postoffers.png)
+#
+Możemy też pobrać ofertę pracy z bazy danych po id:
+![get](architecture/postman/getbyid.png)
+
+
+# 
+Swagger:
 
 ![Swagger](architecture/swagger.png)
 
