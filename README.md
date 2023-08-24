@@ -2,6 +2,7 @@
 
 Live Demo do Swaggera aplikacji umieszczonej na AWS dostępne pod linkiem:
 http://ec2-3-68-186-110.eu-central-1.compute.amazonaws.com:8000/swagger-ui/index.html#
+Najpierw należy zarejestrować użytkownika, potem uzyskać token dla tego użytkownika, a następnie kliknąć Authorize i wkleić token dostępu do endpointów offers.
 
 
 Aplikacja pobierająca z zewnętrznego API listę najnowszych ogłoszeń o pracę dla Java Junior Developerów.

@@ -22,7 +22,7 @@
         <assertj-core.version>3.19.0</assertj-core.version>
         <wiremock-jre8.version>2.35.0</wiremock-jre8.version>
         <awaitility.version>4.0.3</awaitility.version>
-        <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
+<!--        <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>-->
         <java-jwt.version>4.0.0</java-jwt.version>
         <spring-data-redis.version>2.4.5</spring-data-redis.version>
         <jedis.version>3.3.0</jedis.version>
@@ -112,10 +112,15 @@
         </dependency>
 
         <!--  SWAGGER http://localhost:8080/swagger-ui/index.html#/ -->
+<!--        <dependency>-->
+<!--            <groupId>io.springfox</groupId>-->
+<!--            <artifactId>springfox-boot-starter</artifactId>-->
+<!--            <version>${springfox-boot-starter.version}</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${springfox-boot-starter.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.7.0</version>
         </dependency>
         <!-- JWT -->
         <dependency>
