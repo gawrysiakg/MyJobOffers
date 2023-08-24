@@ -9,9 +9,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-      MONGO_INITDB_DATABASE: offers
+      MONGO_INITDB_DATABASE: offers #admin
     volumes:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      # in init-mongo.js removed:  db.getSiblingDB("admin").createUser(
     ports:
       - "27017:27017"
 

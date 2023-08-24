@@ -32,6 +32,13 @@ Jestem dumny z miejsca w którym jestem. Jeszcze rok temu nie potrafiłem nic sa
 - Git, Github/Gitlab
 - Swagger
 
+## Uruchomienie aplikacji:
+
+- sklonować najnowszą wersję repozytorium 
+- uruchomić plik docker-compose.yml
+- uruchomić metodę main w klasie MyJobOffersSpringBootApplication.
+
+ 
 
 ## Zachęcam też do testowania w Postmanie.
 
@@ -44,8 +51,9 @@ http://ec2-3-68-186-110.eu-central-1.compute.amazonaws.com:8000/register
 }
 ````
 ![register](architecture/postman/postregister.png)
-
 #
+ 
+
 Gdy jesteśmy już zarejestrowani, musimy uzyskać token. Robimy POST na “/token” , podając dane z rejestracji, czyli: http://ec2-3-68-186-110.eu-central-1.compute.amazonaws.com:8000/token
 ````
 {
@@ -56,9 +64,13 @@ Gdy jesteśmy już zarejestrowani, musimy uzyskać token. Robimy POST na “/tok
 W odpowiedzi uzyskujemy token.
 ![token](architecture/postman/posttoken.png)
 #
+ 
+
 Następnie możemy już pobrać oferty pracy robiąc GET na “/offers” podając w nagłówku nasz autoryzacyjny bearer token
 ![get](architecture/postman/getoffers.png)
 #
+ 
+
 Możemy też dodać nasze ogłoszenie do bazy danych. W tym celu robimy POST na “/offers”,
 http://ec2-3-68-186-110.eu-central-1.compute.amazonaws.com:8000/offers  podając w nagłówku nasz autoryzacyjny bearer token oraz dodając request body:
 ````
@@ -71,11 +83,13 @@ http://ec2-3-68-186-110.eu-central-1.compute.amazonaws.com:8000/offers  podając
 ````
 ![post](architecture/postman/postoffers.png)
 #
+ 
+
 Możemy też pobrać ofertę pracy z bazy danych po id:
 ![get](architecture/postman/getbyid.png)
-
-
 # 
+ 
+
 Swagger:
 
 ![Swagger](architecture/swagger.png)
