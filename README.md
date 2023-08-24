@@ -2,6 +2,8 @@
 
 Live Demo do Swaggera aplikacji umieszczonej na AWS dostępne pod linkiem:
 http://ec2-3-68-186-110.eu-central-1.compute.amazonaws.com:8000/swagger-ui/index.html#
+ 
+
 Najpierw należy zarejestrować użytkownika, potem uzyskać token dla tego użytkownika, a następnie kliknąć Authorize i wkleić token dostępu do endpointów offers.
 
 
@@ -39,7 +41,9 @@ Jestem dumny z miejsca w którym jestem. Jeszcze rok temu nie potrafiłem nic sa
 - uruchomić metodę main w klasie MyJobOffersSpringBootApplication.
 
  
-
+ 
+  
+ 
 ## Zachęcam też do testowania w Postmanie.
 
 W pierwszej kolejności musimy zarejestrować użytkownika podając swoje dane. Należy zrobić  POST z odpowiednim JSON  na “/register” czyli:
