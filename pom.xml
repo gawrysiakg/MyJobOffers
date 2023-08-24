@@ -112,10 +112,15 @@
         </dependency>
 
         <!--  SWAGGER http://localhost:8080/swagger-ui/index.html#/ -->
+<!--        <dependency>-->
+<!--            <groupId>io.springfox</groupId>-->
+<!--            <artifactId>springfox-boot-starter</artifactId>-->
+<!--            <version>${springfox-boot-starter.version}</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${springfox-boot-starter.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.7.0</version>
         </dependency>
         <!-- JWT -->
         <dependency>
