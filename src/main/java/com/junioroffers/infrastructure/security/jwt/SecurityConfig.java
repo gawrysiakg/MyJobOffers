@@ -41,6 +41,7 @@ public class SecurityConfig {
         httpSecurity.authorizeRequests()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/v3/api-docs").permitAll()
+                .antMatchers("/v3/api-docs/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/token/**").permitAll()
                 .antMatchers("/register/**").permitAll()

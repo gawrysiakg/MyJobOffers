@@ -1,30 +1,36 @@
 package com.junioroffers.infrastructure.swagger;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Contact;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.info.License;
-import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@OpenAPIDefinition(
-        info =@Info(
-                title = "User API",
-                version = "${api.version}",
-                contact = @Contact(
-                        name = "Grzegorz Gawrysiak", email = "gawrysiak.gg@gmail.com"
-                ),
-                license = @License(
-                        name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"
-                ),
-                termsOfService = "${tos.uri}",
-                description = "${api.description}"
-        ),
-        servers = @Server(
-                url = "${api.server.url}",
-                description = "Production"
-        )
-)
 public class OpenAPISecurityConfiguration {
+
+
+    private SecurityScheme createAPIKeyScheme() {
+        return new SecurityScheme().type(SecurityScheme.Type.HTTP)
+                .bearerFormat("JWT")
+                .scheme("bearer");
+    }
+
+    @Bean
+    public OpenAPI openAPI() {
+        return new OpenAPI().addSecurityItem(new SecurityRequirement().
+                        addList("Bearer Authentication"))
+                .components(new Components().addSecuritySchemes
+                        ("Bearer Authentication", createAPIKeyScheme()))
+                .info(new Info().title("My Job Offers")
+                        .description("This is Live Demo to test my App.")
+                        .version("1.0").contact(new Contact().name("Grzegorz Gawrysiak")
+                                .email( "gawrysiak.gg@gmail.com").url("https://www.linkedin.com/in/gawrysiak"))
+                        //.license(new License().name("License of API")
+                               // .url("API license URL"))
+        );
+    }
 }
