@@ -6,6 +6,7 @@ http://ec2-3-68-186-110.eu-central-1.compute.amazonaws.com:8000/swagger-ui/index
 
 Najpierw należy zarejestrować użytkownika, potem uzyskać token dla tego użytkownika, a następnie kliknąć Authorize i wkleić token dostępu do endpointów offers.
 
+## Opis
 
 Aplikacja pobierająca z zewnętrznego API listę najnowszych ogłoszeń o pracę dla Java Junior Developerów.
 Ogłoszenia są cyklicznie pobierane przy użyciu schedulera, filtrowane a następnie bez duplikatów zapisywane w bazie danych.
@@ -41,7 +42,8 @@ Jestem dumny z miejsca w którym jestem. Jeszcze rok temu nie potrafiłem nic sa
 - uruchomić metodę main w klasie MyJobOffersSpringBootApplication.
 
  
- 
+  
+
   
  
 ## Zachęcam też do testowania w Postmanie.
